@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Service class for feature flag business logic.
  * 
@@ -47,6 +50,19 @@ public class FlagService {
         
         // Convert to response DTO
         return convertToResponse(savedFlag);
+    }
+
+    /**
+     * Retrieves all feature flags.
+     * 
+     * @return List of all flags as response DTOs
+     */
+    @Transactional(readOnly = true)
+    public List<FlagResponse> getAllFlags() {
+        List<FeatureFlag> flags = featureFlagRepository.findAll();
+        return flags.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 
     /**

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * REST controller for feature flag management.
  * 
@@ -36,5 +38,16 @@ public class FlagController {
     public ResponseEntity<FlagResponse> createFlag(@Valid @RequestBody CreateFlagRequest request) {
         FlagResponse response = flagService.createFlag(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * Retrieves all feature flags.
+     * 
+     * @return ResponseEntity containing a list of all flags
+     */
+    @GetMapping("/flags")
+    public ResponseEntity<List<FlagResponse>> getAllFlags() {
+        List<FlagResponse> flags = flagService.getAllFlags();
+        return ResponseEntity.ok(flags);
     }
 }
