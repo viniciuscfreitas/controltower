@@ -50,4 +50,16 @@ public class FlagController {
         List<FlagResponse> flags = flagService.getAllFlags();
         return ResponseEntity.ok(flags);
     }
+
+    /**
+     * Toggles the active state of a feature flag.
+     * 
+     * @param name The name of the flag to toggle
+     * @return ResponseEntity containing the updated flag response
+     */
+    @PatchMapping("/flags/{name}")
+    public ResponseEntity<FlagResponse> toggleFlag(@PathVariable String name) {
+        FlagResponse response = flagService.toggleFlag(name);
+        return ResponseEntity.ok(response);
+    }
 }

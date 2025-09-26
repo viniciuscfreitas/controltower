@@ -4,6 +4,7 @@ import com.controltower.dto.CreateFlagRequest;
 import com.controltower.dto.FlagResponse;
 import com.controltower.entity.FeatureFlag;
 import com.controltower.exception.FlagAlreadyExistsException;
+import com.controltower.exception.FlagNotFoundException;
 import com.controltower.repository.FeatureFlagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,28 @@ public class FlagService {
         return flags.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Toggles the active state of a feature flag.
+     * 
+     * @param name The name of the flag to toggle
+     * @return The updated flag response
+     * @throws FlagNotFoundException if the flag with the given name does not exist
+     */
+    public FlagResponse toggleFlag(String name) {
+        // Find the flag by name
+        FeatureFlag flag = featureFlagRepository.findByName(name)
+                .orElseThrow(() -> new FlagNotFoundException("Flag not found with name: " + name));
+
+        // Toggle the active state
+        flag.setIsActive(!flag.getIsActive());
+
+        // Save the updated flag
+        FeatureFlag updatedFlag = featureFlagRepository.save(flag);
+
+        // Convert to response DTO
+        return convertToResponse(updatedFlag);
     }
 
     /**

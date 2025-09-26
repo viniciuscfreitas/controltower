@@ -59,6 +59,21 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles cases when a flag is not found.
+     * 
+     * @param ex The flag not found exception
+     * @return ResponseEntity with not found error details
+     */
+    @ExceptionHandler(FlagNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleFlagNotFoundException(FlagNotFoundException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", "Flag not found");
+        response.put("message", ex.getMessage());
+        
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    /**
      * Handles general runtime exceptions.
      * 
      * @param ex The runtime exception
