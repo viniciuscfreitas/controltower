@@ -9,6 +9,16 @@ Sistema de Feature Flags para startups que precisam de agilidade no lançamento 
 - **Solução**: Aplicação web fullstack com painel administrativo e API RESTful
 - **Stack**: Java Spring Boot + PostgreSQL + Frontend (a definir)
 
+## Current Task: Internationalization Refactoring
+**Objetivo**: Refatorar todo o código para padrão global (inglês) e aplicar princípios de Clean Code.
+
+**Princípios**:
+1. Código deve falar inglês (variáveis, métodos, classes, Javadoc, comentários, mensagens)
+2. Comentários explicam o "porquê", não o "o quê"
+3. Remoção de comentários redundantes
+4. Mensagens de erro em inglês
+5. README revisado
+
 ## High-level Task Breakdown
 
 ### Fase 1: Fundação (Atual)

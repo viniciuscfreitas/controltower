@@ -9,10 +9,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.OffsetDateTime;
 
 /**
- * Entidade JPA que representa uma Feature Flag no sistema.
+ * JPA entity representing a Feature Flag in the system.
  * 
- * Uma feature flag é um mecanismo que permite habilitar/desabilitar
- * funcionalidades em tempo real sem necessidade de deploy.
+ * A feature flag is a mechanism that allows enabling/disabling
+ * functionalities in real-time without code deployment.
  */
 @Entity
 @Table(name = "feature_flags")
@@ -22,15 +22,15 @@ public class FeatureFlag {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank(message = "Nome da flag é obrigatório")
-  @Size(max = 100, message = "Nome da flag deve ter no máximo 100 caracteres")
+  @NotBlank(message = "Flag name is required")
+  @Size(max = 100, message = "Flag name must have at most 100 characters")
   @Column(name = "name", nullable = false, unique = true, length = 100)
   private String name;
 
   @Column(name = "is_active", nullable = false)
   private Boolean isActive = false;
 
-  @Size(max = 255, message = "Descrição deve ter no máximo 255 caracteres")
+  @Size(max = 255, message = "Description must have at most 255 characters")
   @Column(name = "description", length = 255)
   private String description;
 
@@ -42,7 +42,6 @@ public class FeatureFlag {
   @Column(name = "updated_at", nullable = false)
   private OffsetDateTime updatedAt;
 
-  // Construtores
   public FeatureFlag() {
   }
 
@@ -58,7 +57,6 @@ public class FeatureFlag {
     this.isActive = isActive;
   }
 
-  // Getters e Setters
   public Long getId() {
     return id;
   }

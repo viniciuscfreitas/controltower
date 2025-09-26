@@ -15,7 +15,7 @@ This project was built following a professional software engineering blueprint t
 
 ## Tech Stack
 
-| Camada              | Tecnologia / Conceito                  |
+| Layer               | Technology / Concept                   |
 | ------------------- | -------------------------------------- |
 | **Backend**         | Java 17, Spring Boot 3.2.0             |
 | **Database**        | PostgreSQL (Production), H2 (Testing)  |
@@ -72,7 +72,7 @@ This project uses a TDD approach, and all functionality is covered by integratio
 mvn test
 ```
 
-Project Roadmap (Future Enhancements)
-V2.0 - Web UI: A React/Next.js admin panel.
-V3.0 - Advanced Features: Percentage-based rollouts and user segmentation.
-V4.0 - Scalability: Introduce a caching layer (e.g., Redis) for the public endpoint.
+## Project Roadmap (Future Enhancements)
+* **V2.0 - Web UI:** A React/Next.js admin panel.
+* **V3.0 - Advanced Features:** Percentage-based rollouts and user segmentation.
+* **V4.0 - Scalability:** Introduce a caching layer (e.g., Redis) for the public endpoint.

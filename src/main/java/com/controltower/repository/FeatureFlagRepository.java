@@ -9,51 +9,51 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository para operações de persistência da entidade FeatureFlag.
+ * Repository for FeatureFlag entity persistence operations.
  * 
- * Fornece métodos para CRUD básico e consultas específicas
- * para o sistema de feature flags.
+ * Provides methods for basic CRUD and specific queries
+ * for the feature flags system.
  */
 @Repository
 public interface FeatureFlagRepository extends JpaRepository<FeatureFlag, Long> {
 
   /**
-   * Busca uma feature flag pelo nome.
+   * Finds a feature flag by name.
    * 
-   * @param name Nome da flag
-   * @return Optional contendo a flag se encontrada
+   * @param name Flag name
+   * @return Optional containing the flag if found
    */
   Optional<FeatureFlag> findByName(String name);
 
   /**
-   * Verifica se existe uma flag com o nome especificado.
+   * Checks if a flag with the specified name exists.
    * 
-   * @param name Nome da flag
-   * @return true se existe, false caso contrário
+   * @param name Flag name
+   * @return true if exists, false otherwise
    */
   boolean existsByName(String name);
 
   /**
-   * Busca todas as flags ativas.
-   * Otimizado para o endpoint público /api/v1/flags/active
-   * que deve responder em menos de 50ms.
+   * Finds all active flags.
+   * Optimized for the public endpoint /api/v1/flags/active
+   * which should respond in less than 50ms.
    * 
-   * @return Lista com os nomes das flags ativas
+   * @return List with active flag names
    */
   @Query("SELECT f.name FROM FeatureFlag f WHERE f.isActive = true")
   List<String> findActiveFlagNames();
 
   /**
-   * Busca todas as flags ativas (entidade completa).
+   * Finds all active flags (complete entity).
    * 
-   * @return Lista de flags ativas
+   * @return List of active flags
    */
   List<FeatureFlag> findByIsActiveTrue();
 
   /**
-   * Busca todas as flags inativas.
+   * Finds all inactive flags.
    * 
-   * @return Lista de flags inativas
+   * @return List of inactive flags
    */
   List<FeatureFlag> findByIsActiveFalse();
 }

@@ -1,16 +1,16 @@
--- Script de criação da tabela para o serviço ControlTower
--- Usando padrão PostgreSQL
+-- Table creation script for ControlTower service
+-- Using PostgreSQL standard
 
 CREATE TABLE feature_flags (
-    id          BIGSERIAL PRIMARY KEY,  -- BIGSERIAL é um BIGINT auto-incrementável, ideal para chaves primárias.
-    name        VARCHAR(100) NOT NULL UNIQUE, -- O nome da chave da flag, deve ser único. Ex: "novo-checkout-beta".
-    is_active   BOOLEAN NOT NULL DEFAULT FALSE, -- O estado da flag, default para desligada (mais seguro).
-    description VARCHAR(255), -- Uma descrição opcional para explicar o que a flag controla.
-    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(), -- Timestamp com timezone da criação do registro.
-    updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()  -- Timestamp com timezone da última atualização.
+    id          BIGSERIAL PRIMARY KEY,  -- BIGSERIAL is an auto-incrementable BIGINT, ideal for primary keys.
+    name        VARCHAR(100) NOT NULL UNIQUE, -- The flag key name, must be unique. Ex: "new-checkout-beta".
+    is_active   BOOLEAN NOT NULL DEFAULT FALSE, -- The flag state, default to off (safer).
+    description VARCHAR(255), -- An optional description to explain what the flag controls.
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(), -- Timestamp with timezone for record creation.
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()  -- Timestamp with timezone for last update.
 );
 
--- Opcional, mas boa prática: criar uma função para atualizar 'updated_at' automaticamente.
+-- Optional, but good practice: create a function to automatically update 'updated_at'.
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $$
 BEGIN
