@@ -3,6 +3,7 @@ package com.controltower.service;
 import com.controltower.dto.CreateFlagRequest;
 import com.controltower.dto.FlagResponse;
 import com.controltower.entity.FeatureFlag;
+import com.controltower.exception.FlagAlreadyExistsException;
 import com.controltower.repository.FeatureFlagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +31,12 @@ public class FlagService {
      * 
      * @param request The flag creation request
      * @return The created flag response
-     * @throws IllegalArgumentException if a flag with the same name already exists
+     * @throws FlagAlreadyExistsException if a flag with the same name already exists
      */
     public FlagResponse createFlag(CreateFlagRequest request) {
         // Check if flag with the same name already exists
         if (featureFlagRepository.existsByName(request.getName())) {
-            throw new IllegalArgumentException("A flag with the name already exists: " + request.getName());
+            throw new FlagAlreadyExistsException("A flag with the name already exists: " + request.getName());
         }
 
         // Create new feature flag entity
