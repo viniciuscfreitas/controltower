@@ -66,7 +66,7 @@ export default function Dashboard() {
               ControlTower - Feature Flags
             </Typography>
             <Typography variant="body2" sx={{ mr: 2 }}>
-              Olá, {username}
+              Hello, {username}
             </Typography>
             <IconButton color="inherit" onClick={logout}>
               <LogoutIcon />
@@ -85,13 +85,13 @@ export default function Dashboard() {
               onClick={handleCreateFlag}
               size="large"
             >
-              Criar Nova Flag
+              Create New Flag
             </Button>
           </Box>
 
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>
-              Erro ao carregar flags: {error.message}
+              Error loading flags: {error.message}
             </Alert>
           )}
 

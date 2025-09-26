@@ -59,10 +59,10 @@ describe('FlagModal', () => {
       <FlagModal open={true} onClose={mockOnClose} />
     );
 
-    expect(screen.getByText('Criar Nova Flag')).toBeInTheDocument();
-    expect(screen.getByLabelText('Nome')).toBeInTheDocument();
-    expect(screen.getByLabelText('Descrição')).toBeInTheDocument();
-    expect(screen.getByText('Criar')).toBeInTheDocument();
+    expect(screen.getByText('Create New Flag')).toBeInTheDocument();
+    expect(screen.getByLabelText('Name')).toBeInTheDocument();
+    expect(screen.getByLabelText('Description')).toBeInTheDocument();
+    expect(screen.getByText('Create')).toBeInTheDocument();
   });
 
   it('renders edit modal when flag is provided', () => {
@@ -70,10 +70,10 @@ describe('FlagModal', () => {
       <FlagModal open={true} onClose={mockOnClose} flag={mockFlag} />
     );
 
-    expect(screen.getByText('Editar Flag')).toBeInTheDocument();
+    expect(screen.getByText('Edit Flag')).toBeInTheDocument();
     expect(screen.getByDisplayValue('new-checkout')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Nova experiência de checkout')).toBeInTheDocument();
-    expect(screen.getByText('Salvar')).toBeInTheDocument();
+    expect(screen.getByText('Save')).toBeInTheDocument();
   });
 
   it('validates required name field', async () => {
@@ -82,13 +82,13 @@ describe('FlagModal', () => {
     );
 
     const nameInput = screen.getByLabelText('Nome');
-    const createButton = screen.getByText('Criar');
+    const createButton = screen.getByText('Create');
 
     fireEvent.change(nameInput, { target: { value: '' } });
     fireEvent.click(createButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Nome é obrigatório')).toBeInTheDocument();
+      expect(screen.getByText('Name is required')).toBeInTheDocument();
     });
   });
 
@@ -98,13 +98,13 @@ describe('FlagModal', () => {
     );
 
     const nameInput = screen.getByLabelText('Nome');
-    const createButton = screen.getByText('Criar');
+    const createButton = screen.getByText('Create');
 
     fireEvent.change(nameInput, { target: { value: 'a'.repeat(51) } });
     fireEvent.click(createButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Nome deve ter no máximo 50 caracteres')).toBeInTheDocument();
+      expect(screen.getByText('Name must be at most 50 characters')).toBeInTheDocument();
     });
   });
 
@@ -115,14 +115,14 @@ describe('FlagModal', () => {
 
     const nameInput = screen.getByLabelText('Nome');
     const descriptionInput = screen.getByLabelText('Descrição');
-    const createButton = screen.getByText('Criar');
+    const createButton = screen.getByText('Create');
 
     fireEvent.change(nameInput, { target: { value: 'test-flag' } });
     fireEvent.change(descriptionInput, { target: { value: 'a'.repeat(201) } });
     fireEvent.click(createButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Descrição deve ter no máximo 200 caracteres')).toBeInTheDocument();
+      expect(screen.getByText('Description must be at most 200 characters')).toBeInTheDocument();
     });
   });
 
@@ -131,7 +131,7 @@ describe('FlagModal', () => {
       <FlagModal open={true} onClose={mockOnClose} />
     );
 
-    const cancelButton = screen.getByText('Cancelar');
+    const cancelButton = screen.getByText('Cancel');
     fireEvent.click(cancelButton);
 
     expect(mockOnClose).toHaveBeenCalled();
@@ -144,7 +144,7 @@ describe('FlagModal', () => {
 
     const nameInput = screen.getByLabelText('Nome');
     const descriptionInput = screen.getByLabelText('Descrição');
-    const createButton = screen.getByText('Criar');
+    const createButton = screen.getByText('Create');
 
     fireEvent.change(nameInput, { target: { value: 'test-flag' } });
     fireEvent.change(descriptionInput, { target: { value: 'Test description' } });

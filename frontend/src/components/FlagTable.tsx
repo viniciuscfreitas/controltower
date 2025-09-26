@@ -49,11 +49,11 @@ export default function FlagTable({ flags, onEdit, loading, error }: FlagTablePr
   const deleteFlagMutation = useDeleteFlag();
 
   const handleToggleFlag = (flag: FeatureFlag) => {
-    const action = flag.enabled ? 'DESATIVAR' : 'ATIVAR';
+    const action = flag.enabled ? 'DEACTIVATE' : 'ACTIVATE';
     setConfirmationModal({
       open: true,
-      title: `Confirmar ${action} Flag`,
-      message: `Tem certeza que deseja ${action.toLowerCase()} a flag '${flag.name}'?`,
+      title: `Confirm ${action} Flag`,
+      message: `Are you sure you want to ${action.toLowerCase()} the flag '${flag.name}'?`,
       onConfirm: () => {
         toggleFlagMutation.mutate({
           id: flag.id,
@@ -67,8 +67,8 @@ export default function FlagTable({ flags, onEdit, loading, error }: FlagTablePr
   const handleDeleteFlag = (flag: FeatureFlag) => {
     setConfirmationModal({
       open: true,
-      title: 'Confirmar Exclusão',
-      message: `Tem certeza que deseja excluir a flag '${flag.name}'? Esta ação não pode ser desfeita.`,
+      title: 'Confirm Deletion',
+      message: `Are you sure you want to delete the flag '${flag.name}'? This action cannot be undone.`,
       onConfirm: () => {
         deleteFlagMutation.mutate(flag.id);
         setConfirmationModal(prev => ({ ...prev, open: false }));
@@ -87,7 +87,7 @@ export default function FlagTable({ flags, onEdit, loading, error }: FlagTablePr
   if (error) {
     return (
       <Alert severity="error" sx={{ mb: 2 }}>
-        Erro ao carregar flags: {error}
+        Error loading flags: {error}
       </Alert>
     );
   }
@@ -109,7 +109,7 @@ export default function FlagTable({ flags, onEdit, loading, error }: FlagTablePr
               <TableRow>
                 <TableCell colSpan={4} align="center">
                   <Typography variant="body2" color="text.secondary">
-                    Nenhuma flag encontrada
+                    No flags found
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -135,7 +135,7 @@ export default function FlagTable({ flags, onEdit, loading, error }: FlagTablePr
                         color="success"
                       />
                       <Chip
-                        label={flag.enabled ? 'ATIVO' : 'INATIVO'}
+                        label={flag.enabled ? 'ACTIVE' : 'INACTIVE'}
                         color={flag.enabled ? 'success' : 'default'}
                         size="small"
                         variant="outlined"

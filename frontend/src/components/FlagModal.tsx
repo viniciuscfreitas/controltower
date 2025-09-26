@@ -54,13 +54,13 @@ export default function FlagModal({ open, onClose, flag }: FlagModalProps) {
     const newErrors: Partial<CreateFlagRequest> = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Nome é obrigatório';
+      newErrors.name = 'Name is required';
     } else if (formData.name.length > 50) {
-      newErrors.name = 'Nome deve ter no máximo 50 caracteres';
+      newErrors.name = 'Name must be at most 50 characters';
     }
 
     if (formData.description.length > 200) {
-      newErrors.description = 'Descrição deve ter no máximo 200 caracteres';
+      newErrors.description = 'Description must be at most 200 characters';
     }
 
     setErrors(newErrors);
@@ -110,19 +110,19 @@ export default function FlagModal({ open, onClose, flag }: FlagModalProps) {
       fullWidth
     >
       <DialogTitle>
-        {isEditing ? 'Editar Flag' : 'Criar Nova Flag'}
+        {isEditing ? 'Edit Flag' : 'Create New Flag'}
       </DialogTitle>
       <DialogContent>
         <Box sx={{ pt: 1 }}>
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>
-              {error instanceof Error ? error.message : 'Erro ao salvar flag'}
+              {error instanceof Error ? error.message : 'Error saving flag'}
             </Alert>
           )}
           
           <TextField
             fullWidth
-            label="Nome"
+            label="Name"
             value={formData.name}
             onChange={handleInputChange('name')}
             error={!!errors.name}
@@ -135,7 +135,7 @@ export default function FlagModal({ open, onClose, flag }: FlagModalProps) {
           
           <TextField
             fullWidth
-            label="Descrição"
+            label="Description"
             value={formData.description}
             onChange={handleInputChange('description')}
             error={!!errors.description}
@@ -150,7 +150,7 @@ export default function FlagModal({ open, onClose, flag }: FlagModalProps) {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} disabled={isLoading}>
-          Cancelar
+          Cancel
         </Button>
         <Button
           onClick={handleSubmit}
@@ -158,7 +158,7 @@ export default function FlagModal({ open, onClose, flag }: FlagModalProps) {
           disabled={isLoading}
           startIcon={isLoading ? <CircularProgress size={16} /> : null}
         >
-          {isEditing ? 'Salvar' : 'Criar'}
+          {isEditing ? 'Save' : 'Create'}
         </Button>
       </DialogActions>
     </Dialog>

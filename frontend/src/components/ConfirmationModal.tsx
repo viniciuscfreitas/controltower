@@ -47,10 +47,10 @@ export default function ConfirmationModal({
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel} color="inherit">
-          Cancelar
+          Cancel
         </Button>
         <Button onClick={onConfirm} color="error" variant="contained">
-          Confirmar
+          Confirm
         </Button>
       </DialogActions>
     </Dialog>

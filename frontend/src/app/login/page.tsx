@@ -56,10 +56,10 @@ export default function LoginPage() {
       if (success) {
         router.push('/');
       } else {
-        setError('Credenciais inválidas');
+        setError('Invalid credentials');
       }
     } catch (error) {
-      setError('Erro ao fazer login');
+      setError('Login error');
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +89,7 @@ export default function LoginPage() {
                 ControlTower
               </Typography>
               <Typography component="h2" variant="h6" color="text.secondary" gutterBottom>
-                Faça login para acessar o painel
+                Sign in to access the admin panel
               </Typography>
               
               {error && (
@@ -104,7 +104,7 @@ export default function LoginPage() {
                   required
                   fullWidth
                   id="username"
-                  label="Usuário"
+                  label="Username"
                   name="username"
                   autoComplete="username"
                   autoFocus
@@ -117,7 +117,7 @@ export default function LoginPage() {
                   required
                   fullWidth
                   name="password"
-                  label="Senha"
+                  label="Password"
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -133,7 +133,7 @@ export default function LoginPage() {
                   disabled={isLoading}
                   startIcon={isLoading ? <CircularProgress size={16} /> : null}
                 >
-                  {isLoading ? 'Entrando...' : 'Entrar'}
+                  {isLoading ? 'Signing in...' : 'Sign In'}
                 </Button>
               </Box>
             </Box>

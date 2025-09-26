@@ -82,12 +82,12 @@ describe('FlagTable', () => {
   });
 
   it('shows error state', () => {
-    const errorMessage = 'Erro ao carregar flags';
+    const errorMessage = 'Error loading flags';
     renderWithProviders(
       <FlagTable flags={[]} onEdit={mockOnEdit} error={errorMessage} />
     );
 
-    expect(screen.getByText(`Erro ao carregar flags: ${errorMessage}`)).toBeInTheDocument();
+    expect(screen.getByText(`Error loading flags: ${errorMessage}`)).toBeInTheDocument();
   });
 
   it('shows empty state when no flags', () => {
@@ -118,8 +118,8 @@ describe('FlagTable', () => {
     fireEvent.click(deleteButtons[0]);
 
     await waitFor(() => {
-      expect(screen.getByText('Confirmar Exclusão')).toBeInTheDocument();
-      expect(screen.getByText(/Tem certeza que deseja excluir a flag 'new-checkout'/)).toBeInTheDocument();
+      expect(screen.getByText('Confirm Deletion')).toBeInTheDocument();
+      expect(screen.getByText(/Are you sure you want to delete the flag 'new-checkout'/)).toBeInTheDocument();
     });
   });
 
@@ -132,8 +132,8 @@ describe('FlagTable', () => {
     fireEvent.click(switches[0]);
 
     await waitFor(() => {
-      expect(screen.getByText('Confirmar DESATIVAR Flag')).toBeInTheDocument();
-      expect(screen.getByText(/Tem certeza que deseja desativar a flag 'new-checkout'/)).toBeInTheDocument();
+      expect(screen.getByText('Confirm DEACTIVATE Flag')).toBeInTheDocument();
+      expect(screen.getByText(/Are you sure you want to deactivate the flag 'new-checkout'/)).toBeInTheDocument();
     });
   });
 });
