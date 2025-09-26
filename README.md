@@ -1,6 +1,6 @@
-# ControlTower: Sistema Completo de Feature Flags
+# ControlTower: A Lightweight, Self-Hosted Feature Flag System
 
-Um sistema completo de feature flags com backend robusto em Java/Spring Boot e frontend moderno em Next.js/React. Desenvolvido seguindo metodologias profissionais de desenvolvimento e arquitetura limpa.
+A pragmatic, high-performance Feature Flag API built with Java 17, Spring Boot 3, and a Test-Driven Development (TDD) approach. This project serves as a professional showcase of a robust, well-architected full-stack system with both backend API and frontend admin panel.
 
 ## Core Concepts & Architecture
 
@@ -15,25 +15,16 @@ This project was built following a professional software engineering blueprint t
 
 ## Tech Stack
 
-### Backend
 | Layer               | Technology / Concept                   |
 | ------------------- | -------------------------------------- |
 | **Backend**         | Java 17, Spring Boot 3.2.0             |
+| **Frontend**        | Next.js 15, TypeScript, Material-UI    |
 | **Database**        | PostgreSQL (Production), H2 (Testing)  |
 | **Persistence**     | Spring Data JPA / Hibernate            |
 | **Security**        | Spring Security (HTTP Basic Auth)      |
-| **Testing**         | JUnit 5, MockMvc, Testcontainers       |
-| **Build Tool**      | Maven                                  |
-
-### Frontend
-| Layer               | Technology / Concept                   |
-| ------------------- | -------------------------------------- |
-| **Framework**       | Next.js 15, React 19, TypeScript       |
-| **UI Library**      | Material-UI (MUI)                      |
 | **State Management**| React Query (TanStack Query)           |
-| **HTTP Client**     | Axios                                  |
-| **Testing**         | Jest, React Testing Library            |
-| **Styling**         | Tailwind CSS + Material-UI             |
+| **Testing**         | JUnit 5, MockMvc, Testcontainers, Jest, React Testing Library |
+| **Build Tool**      | Maven, npm                             |
 
 ## API Endpoints
 
@@ -52,15 +43,15 @@ This project was built following a professional software engineering blueprint t
 | :----- | :--------------- | :------------------------------------------- |
 | `GET`  | `/flags/active`  | Returns a list of active flag names.         |
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 * Java 17+
-* Node.js 18+
 * Maven 3.6+
+* Node.js 18+
 * Docker (for Testcontainers)
 
-### Running the Complete Application
+### Running the Application
 
 1.  **Clone the repository:**
     ```bash
@@ -71,74 +62,55 @@ This project was built following a professional software engineering blueprint t
 2.  **Setup the database (if not using tests):**
     The application is configured to use a local PostgreSQL instance by default. You can use the `schema.sql` script to initialize the table.
 
-3.  **Run the Backend:**
+3.  **Run the backend:**
     ```bash
     mvn spring-boot:run
     ```
-    The backend will be available at `http://localhost:8080`. Admin credentials are `admin` / `admin123`.
+    The backend API will be available at `http://localhost:8080`. Admin credentials are `admin` / `admin123`.
 
-4.  **Run the Frontend:**
+4.  **Run the frontend:**
     ```bash
     cd frontend
     npm install
     npm run dev
     ```
-    The frontend will be available at `http://localhost:3000`.
+    The frontend admin panel will be available at `http://localhost:3000`.
 
-### 🎯 Frontend Features
+### Running Tests
 
-- **Dashboard Principal**: Visualização de todas as feature flags em uma tabela responsiva
-- **Criação/Edição**: Modal com formulário validado para gerenciar flags
-- **Confirmação de Ações**: Modal de confirmação para ações críticas (toggle/delete)
-- **Autenticação**: Sistema de login integrado com o backend
-- **Interface Profissional**: Design moderno com Material-UI
+This project uses a TDD approach, and all functionality is covered by integration tests. To run the complete test suite:
 
-### 🧪 Running Tests
-
-**Backend Tests:**
+**Backend tests:**
 ```bash
 mvn test
 ```
 
-**Frontend Tests:**
+**Frontend tests:**
 ```bash
 cd frontend
 npm test
 ```
 
-## 📁 Project Structure
+## Frontend Admin Panel
 
-```
-controltower/
-├── src/                    # Backend (Spring Boot)
-│   ├── main/java/         # Código fonte Java
-│   └── test/java/         # Testes do backend
-├── frontend/              # Frontend (Next.js)
-│   ├── src/
-│   │   ├── app/          # Páginas (App Router)
-│   │   ├── components/   # Componentes React
-│   │   ├── hooks/        # Hooks customizados
-│   │   ├── services/     # Serviços de API
-│   │   └── types/        # Definições TypeScript
-│   └── package.json      # Dependências do frontend
-├── pom.xml               # Configuração Maven
-└── README.md            # Este arquivo
-```
+The frontend is a modern Single-Page Application (SPA) built with Next.js 15 and TypeScript, featuring:
 
-## 🎯 Project Roadmap (Future Enhancements)
+* **Dashboard:** Comprehensive table view of all feature flags with real-time status updates
+* **CRUD Operations:** Create, edit, and delete feature flags through intuitive modals
+* **Authentication:** Secure login system with HTTP Basic Auth integration
+* **State Management:** Efficient data fetching and caching with React Query
+* **Responsive Design:** Professional UI built with Material-UI components
+* **Type Safety:** Full TypeScript implementation for robust development
+
+### Frontend Architecture
+
+* **Component-Based:** Modular React components with clear separation of concerns
+* **Custom Hooks:** Reusable logic for API interactions and state management
+* **Context API:** Centralized authentication state management
+* **Error Handling:** Comprehensive error boundaries and user feedback
+* **Testing:** Unit tests with Jest and React Testing Library
+
+## Project Roadmap (Future Enhancements)
 * **V3.0 - Advanced Features:** Percentage-based rollouts and user segmentation.
 * **V4.0 - Scalability:** Introduce a caching layer (e.g., Redis) for the public endpoint.
-* **V5.0 - Analytics:** Dashboard with flag usage metrics and analytics.
-* **V6.0 - Multi-tenant:** Support for multiple organizations and teams.
-
-## 🤝 Contributing
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 License
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+* **V5.0 - Analytics:** Usage metrics and flag performance tracking.
