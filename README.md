@@ -1,6 +1,6 @@
-# ControlTower: A Lightweight, Self-Hosted Feature Flag System
+# ControlTower: Sistema Completo de Feature Flags
 
-A pragmatic, high-performance Feature Flag API built with Java 17, Spring Boot 3, and a Test-Driven Development (TDD) approach. This project serves as a professional showcase of a robust, well-architected backend system.
+Um sistema completo de feature flags com backend robusto em Java/Spring Boot e frontend moderno em Next.js/React. Desenvolvido seguindo metodologias profissionais de desenvolvimento e arquitetura limpa.
 
 ## Core Concepts & Architecture
 
@@ -15,6 +15,7 @@ This project was built following a professional software engineering blueprint t
 
 ## Tech Stack
 
+### Backend
 | Layer               | Technology / Concept                   |
 | ------------------- | -------------------------------------- |
 | **Backend**         | Java 17, Spring Boot 3.2.0             |
@@ -23,6 +24,16 @@ This project was built following a professional software engineering blueprint t
 | **Security**        | Spring Security (HTTP Basic Auth)      |
 | **Testing**         | JUnit 5, MockMvc, Testcontainers       |
 | **Build Tool**      | Maven                                  |
+
+### Frontend
+| Layer               | Technology / Concept                   |
+| ------------------- | -------------------------------------- |
+| **Framework**       | Next.js 15, React 19, TypeScript       |
+| **UI Library**      | Material-UI (MUI)                      |
+| **State Management**| React Query (TanStack Query)           |
+| **HTTP Client**     | Axios                                  |
+| **Testing**         | Jest, React Testing Library            |
+| **Styling**         | Tailwind CSS + Material-UI             |
 
 ## API Endpoints
 
@@ -41,38 +52,93 @@ This project was built following a professional software engineering blueprint t
 | :----- | :--------------- | :------------------------------------------- |
 | `GET`  | `/flags/active`  | Returns a list of active flag names.         |
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 * Java 17+
+* Node.js 18+
 * Maven 3.6+
 * Docker (for Testcontainers)
 
-### Running the Application
+### Running the Complete Application
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/viniciuscfreitas/controltower.git](https://github.com/viniciuscfreitas/controltower.git)
+    git clone https://github.com/viniciuscfreitas/controltower.git
     cd controltower
     ```
 
 2.  **Setup the database (if not using tests):**
     The application is configured to use a local PostgreSQL instance by default. You can use the `schema.sql` script to initialize the table.
 
-3.  **Run the application:**
+3.  **Run the Backend:**
     ```bash
     mvn spring-boot:run
     ```
-    The application will be available at `http://localhost:8080`. Admin credentials are `admin` / `admin123`.
+    The backend will be available at `http://localhost:8080`. Admin credentials are `admin` / `admin123`.
 
-### Running Tests
+4.  **Run the Frontend:**
+    ```bash
+    cd frontend
+    npm install
+    npm run dev
+    ```
+    The frontend will be available at `http://localhost:3000`.
 
-This project uses a TDD approach, and all functionality is covered by integration tests. To run the complete test suite:
+### 🎯 Frontend Features
+
+- **Dashboard Principal**: Visualização de todas as feature flags em uma tabela responsiva
+- **Criação/Edição**: Modal com formulário validado para gerenciar flags
+- **Confirmação de Ações**: Modal de confirmação para ações críticas (toggle/delete)
+- **Autenticação**: Sistema de login integrado com o backend
+- **Interface Profissional**: Design moderno com Material-UI
+
+### 🧪 Running Tests
+
+**Backend Tests:**
 ```bash
 mvn test
 ```
 
-## Project Roadmap (Future Enhancements)
-* **V2.0 - Web UI:** A React/Next.js admin panel.
+**Frontend Tests:**
+```bash
+cd frontend
+npm test
+```
+
+## 📁 Project Structure
+
+```
+controltower/
+├── src/                    # Backend (Spring Boot)
+│   ├── main/java/         # Código fonte Java
+│   └── test/java/         # Testes do backend
+├── frontend/              # Frontend (Next.js)
+│   ├── src/
+│   │   ├── app/          # Páginas (App Router)
+│   │   ├── components/   # Componentes React
+│   │   ├── hooks/        # Hooks customizados
+│   │   ├── services/     # Serviços de API
+│   │   └── types/        # Definições TypeScript
+│   └── package.json      # Dependências do frontend
+├── pom.xml               # Configuração Maven
+└── README.md            # Este arquivo
+```
+
+## 🎯 Project Roadmap (Future Enhancements)
 * **V3.0 - Advanced Features:** Percentage-based rollouts and user segmentation.
 * **V4.0 - Scalability:** Introduce a caching layer (e.g., Redis) for the public endpoint.
+* **V5.0 - Analytics:** Dashboard with flag usage metrics and analytics.
+* **V6.0 - Multi-tenant:** Support for multiple organizations and teams.
+
+## 🤝 Contributing
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 License
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.

@@ -111,6 +111,9 @@ logs/
 .env.test.local
 .env.production.local
 
+# Cursor IDE
+.cursor/
+
 # Frontend (Next.js)
 frontend/node_modules/
 frontend/.next/
