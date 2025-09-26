@@ -1,0 +1,145 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  Container,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Alert,
+  CircularProgress,
+} from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { useAuth } from '@/contexts/AuthContext';
+import { LoginCredentials } from '@/types/auth';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+  },
+});
+
+export default function LoginPage() {
+  const [credentials, setCredentials] = useState<LoginCredentials>({
+    username: '',
+    password: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleInputChange = (field: keyof LoginCredentials) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCredentials(prev => ({
+      ...prev,
+      [field]: event.target.value,
+    }));
+    setError(null);
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const success = await login(credentials);
+      if (success) {
+        router.push('/');
+      } else {
+        setError('Credenciais inválidas');
+      }
+    } catch (error) {
+      setError('Erro ao fazer login');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container component="main" maxWidth="sm">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Paper elevation={3} sx={{ padding: 4, width: '100%' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Typography component="h1" variant="h4" gutterBottom>
+                ControlTower
+              </Typography>
+              <Typography component="h2" variant="h6" color="text.secondary" gutterBottom>
+                Faça login para acessar o painel
+              </Typography>
+              
+              {error && (
+                <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
+                  {error}
+                </Alert>
+              )}
+
+              <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Usuário"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                  value={credentials.username}
+                  onChange={handleInputChange('username')}
+                  disabled={isLoading}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Senha"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={credentials.password}
+                  onChange={handleInputChange('password')}
+                  disabled={isLoading}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  disabled={isLoading}
+                  startIcon={isLoading ? <CircularProgress size={16} /> : null}
+                >
+                  {isLoading ? 'Entrando...' : 'Entrar'}
+                </Button>
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
+}

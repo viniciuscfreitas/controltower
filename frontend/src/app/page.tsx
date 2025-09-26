@@ -1,0 +1,114 @@
+'use client';
+
+import React, { useState } from 'react';
+import {
+  Container,
+  Typography,
+  Button,
+  Box,
+  AppBar,
+  Toolbar,
+  Alert,
+  IconButton,
+} from '@mui/material';
+import { Add as AddIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { useFlags } from '@/hooks/useFlags';
+import { useAuth } from '@/contexts/AuthContext';
+import FlagTable from '@/components/FlagTable';
+import FlagModal from '@/components/FlagModal';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import { FeatureFlag } from '@/types/flag';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
+
+export default function Dashboard() {
+  const [flagModal, setFlagModal] = useState<{
+    open: boolean;
+    flag: FeatureFlag | null;
+  }>({
+    open: false,
+    flag: null,
+  });
+
+  const { data: flags = [], isLoading, error } = useFlags();
+  const { logout, username } = useAuth();
+
+  const handleCreateFlag = () => {
+    setFlagModal({ open: true, flag: null });
+  };
+
+  const handleEditFlag = (flag: FeatureFlag) => {
+    setFlagModal({ open: true, flag });
+  };
+
+  const handleCloseModal = () => {
+    setFlagModal({ open: false, flag: null });
+  };
+
+  return (
+    <ProtectedRoute>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              ControlTower - Feature Flags
+            </Typography>
+            <Typography variant="body2" sx={{ mr: 2 }}>
+              Olá, {username}
+            </Typography>
+            <IconButton color="inherit" onClick={logout}>
+              <LogoutIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+            <Typography variant="h4" component="h1">
+              Dashboard
+            </Typography>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={handleCreateFlag}
+              size="large"
+            >
+              Criar Nova Flag
+            </Button>
+          </Box>
+
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              Erro ao carregar flags: {error.message}
+            </Alert>
+          )}
+
+          <FlagTable
+            flags={flags}
+            onEdit={handleEditFlag}
+            loading={isLoading}
+            error={error?.message}
+          />
+
+          <FlagModal
+            open={flagModal.open}
+            onClose={handleCloseModal}
+            flag={flagModal.flag}
+          />
+        </Container>
+      </ThemeProvider>
+    </ProtectedRoute>
+  );
+}

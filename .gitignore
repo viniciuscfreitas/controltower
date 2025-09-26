@@ -110,3 +110,21 @@ logs/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Frontend (Next.js)
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/dist/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/.vercel
+frontend/.turbo
+frontend/coverage/
+frontend/.nyc_output
+frontend/.jest/
+frontend/jest.config.js
+frontend/jest.setup.js
