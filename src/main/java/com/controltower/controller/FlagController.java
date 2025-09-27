@@ -62,4 +62,16 @@ public class FlagController {
         FlagResponse response = flagService.toggleFlag(id);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * Deletes a feature flag by ID.
+     * 
+     * @param id The ID of the flag to delete
+     * @return ResponseEntity with no content
+     */
+    @DeleteMapping("/flags/{id}")
+    public ResponseEntity<Void> deleteFlag(@PathVariable Long id) {
+        flagService.deleteFlag(id);
+        return ResponseEntity.noContent().build();
+    }
 }

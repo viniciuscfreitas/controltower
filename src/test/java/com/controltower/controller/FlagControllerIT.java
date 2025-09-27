@@ -11,6 +11,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -182,6 +183,54 @@ class FlagControllerIT {
     void shouldReturn404WhenTogglingNonExistentFlag() throws Exception {
         // Act & Assert: Try to toggle a flag that doesn't exist
         mockMvc.perform(patch("/admin/flags/999")
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.error").value("Flag not found"))
+            .andExpect(jsonPath("$.message").value("Flag not found with ID: 999"));
+    }
+
+    @Test
+    void shouldDeleteFlagSuccessfully() throws Exception {
+        // Arrange: Create a flag first
+        String createRequestBody = """
+            {
+                "name": "flag-to-delete",
+                "description": "This flag will be deleted"
+            }
+        """;
+
+        // Create the flag and capture the response to get the ID
+        String response = mockMvc.perform(post("/admin/flags")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createRequestBody)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        // Extract the ID from the response
+        String id = response.substring(response.indexOf("\"id\":") + 5, response.indexOf(","));
+        id = id.trim();
+
+        // Act: Delete the flag
+        mockMvc.perform(delete("/admin/flags/" + id)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isNoContent());
+
+        // Assert: Verify the flag no longer exists by trying to get it
+        mockMvc.perform(get("/admin/flags")
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$.length()").value(0));
+    }
+
+    @Test
+    void shouldReturn404WhenDeletingNonExistentFlag() throws Exception {
+        // Act & Assert: Try to delete a flag that doesn't exist
+        mockMvc.perform(delete("/admin/flags/999")
                 .with(httpBasic("admin", "admin123")))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.error").value("Flag not found"))

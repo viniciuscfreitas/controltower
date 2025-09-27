@@ -90,6 +90,22 @@ public class FlagService {
     }
 
     /**
+     * Deletes a feature flag by ID.
+     * 
+     * @param id The ID of the flag to delete
+     * @throws FlagNotFoundException if the flag with the given ID does not exist
+     */
+    public void deleteFlag(Long id) {
+        // Check if flag exists
+        if (!featureFlagRepository.existsById(id)) {
+            throw new FlagNotFoundException("Flag not found with ID: " + id);
+        }
+
+        // Delete the flag
+        featureFlagRepository.deleteById(id);
+    }
+
+    /**
      * Converts a FeatureFlag entity to a FlagResponse DTO.
      * 
      * @param featureFlag The entity to convert
