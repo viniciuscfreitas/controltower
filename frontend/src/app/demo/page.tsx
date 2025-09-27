@@ -9,7 +9,6 @@ import {
   CardContent,
   Chip,
   Alert,
-  Button,
 } from '@mui/material';
 import { 
   RocketLaunch as RocketIcon,
@@ -21,7 +20,6 @@ import {
 import { useFeatureFlag, useFeatureFlags } from '@/hooks/useFeatureFlag';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
-// Componente que só aparece quando a flag está ativa
 const SecretFeature = () => (
   <Card sx={{ 
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -38,7 +36,7 @@ const SecretFeature = () => (
       </Box>
       <Typography variant="body1">
         Parabéns! Esta é uma funcionalidade experimental que só aparece quando a flag 
-        <strong> 'secret-feature-beta'</strong> está ativa no painel de controle.
+        <strong> secret-feature-beta</strong> está ativa no painel de controle.
       </Typography>
       <Typography variant="body2" sx={{ mt: 1, opacity: 0.9 }}>
         Esta demonstração mostra como você pode controlar features em tempo real, 
@@ -48,7 +46,6 @@ const SecretFeature = () => (
   </Card>
 );
 
-// Componente de exemplo para múltiplas flags
 const MultipleFlagsDemo = () => {
   const flags = useFeatureFlags(['feature-a', 'feature-b', 'feature-c']);
   
@@ -70,7 +67,7 @@ const MultipleFlagsDemo = () => {
           ))}
         </Box>
         <Typography variant="body2" color="text.secondary">
-          Crie flags com os nomes 'feature-a', 'feature-b' ou 'feature-c' no painel 
+          Crie flags com os nomes feature-a, feature-b ou feature-c no painel 
           para ver elas aparecerem aqui em tempo real.
         </Typography>
       </CardContent>
@@ -93,7 +90,6 @@ export default function DemoPage() {
           </Typography>
         </Box>
 
-        {/* Instruções */}
         <Alert severity="info" sx={{ mb: 3 }}>
           <Typography variant="h6" gutterBottom>
             📋 Como testar:
@@ -101,7 +97,7 @@ export default function DemoPage() {
           <ol>
             <li>
               <strong>Crie uma flag:</strong> Vá ao painel de controle e crie uma flag 
-              chamada <code>'secret-feature-beta'</code>
+              chamada <code>secret-feature-beta</code>
             </li>
             <li>
               <strong>Deixe INATIVA:</strong> A feature secreta não deve aparecer abaixo
@@ -110,18 +106,17 @@ export default function DemoPage() {
               <strong>ATIVA a flag:</strong> Recarregue esta página - a feature deve aparecer!
             </li>
             <li>
-              <strong>Teste o "Kill Switch":</strong> Desative a flag e recarregue - 
+              <strong>Teste o Kill Switch:</strong> Desative a flag e recarregue - 
               a feature desaparece instantaneamente
             </li>
           </ol>
         </Alert>
 
-        {/* Status da Flag */}
         <Card sx={{ mb: 3 }}>
           <CardContent>
             <Box display="flex" alignItems="center" gap={2}>
               <Typography variant="h6">
-                Status da Flag 'secret-feature-beta':
+                Status da Flag secret-feature-beta:
               </Typography>
               {showSecretFeature ? (
                 <Chip
@@ -142,7 +137,6 @@ export default function DemoPage() {
           </CardContent>
         </Card>
 
-        {/* Feature Condicional */}
         <Box mb={3}>
           <Typography variant="h5" gutterBottom>
             🎯 Feature Controlada por Flag
@@ -162,14 +156,13 @@ export default function DemoPage() {
                   Feature Secreta Ocultada
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Ative a flag 'secret-feature-beta' no painel de controle para ver a mágica acontecer!
+                  Ative a flag secret-feature-beta no painel de controle para ver a mágica acontecer!
                 </Typography>
               </CardContent>
             </Card>
           )}
         </Box>
 
-        {/* Demonstração de Múltiplas Flags */}
         <Box mb={3}>
           <Typography variant="h5" gutterBottom>
             🎛️ Múltiplas Flags
@@ -177,14 +170,13 @@ export default function DemoPage() {
           <MultipleFlagsDemo />
         </Box>
 
-        {/* Explicação Técnica */}
         <Card sx={{ backgroundColor: '#f8f9fa' }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
               🔧 Como Funciona Tecnicamente
             </Typography>
             <Typography variant="body1" paragraph>
-              Esta página usa o hook <code>useFeatureFlag()</code> que:
+              Esta página usa o hook useFeatureFlag() que:
             </Typography>
             <ul>
               <li>
