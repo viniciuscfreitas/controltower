@@ -2,6 +2,7 @@ package com.controltower.controller;
 
 import com.controltower.dto.CreateFlagRequest;
 import com.controltower.dto.FlagResponse;
+import com.controltower.dto.UpdateFlagRequest;
 import com.controltower.service.FlagService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,19 @@ public class FlagController {
     public ResponseEntity<Void> deleteFlag(@PathVariable Long id) {
         flagService.deleteFlag(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Updates a feature flag with new data.
+     * 
+     * @param id            The ID of the flag to update
+     * @param updateRequest The update request containing new values
+     * @return ResponseEntity containing the updated flag response
+     */
+    @PutMapping("/flags/{id}")
+    public ResponseEntity<FlagResponse> updateFlag(@PathVariable Long id,
+            @RequestBody UpdateFlagRequest updateRequest) {
+        FlagResponse response = flagService.updateFlag(id, updateRequest);
+        return ResponseEntity.ok(response);
     }
 }

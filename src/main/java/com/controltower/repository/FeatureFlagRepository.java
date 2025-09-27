@@ -34,6 +34,16 @@ public interface FeatureFlagRepository extends JpaRepository<FeatureFlag, Long> 
   boolean existsByName(String name);
 
   /**
+   * Checks if a flag with the specified name exists, excluding a specific ID.
+   * Used for update operations to prevent name conflicts.
+   * 
+   * @param name Flag name
+   * @param id ID to exclude from the search
+   * @return true if exists, false otherwise
+   */
+  boolean existsByNameAndIdNot(String name, Long id);
+
+  /**
    * Finds all active flags.
    * Optimized for the public endpoint /api/v1/flags/active
    * which should respond in less than 50ms.

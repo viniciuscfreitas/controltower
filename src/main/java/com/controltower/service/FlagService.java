@@ -2,6 +2,7 @@ package com.controltower.service;
 
 import com.controltower.dto.CreateFlagRequest;
 import com.controltower.dto.FlagResponse;
+import com.controltower.dto.UpdateFlagRequest;
 import com.controltower.entity.FeatureFlag;
 import com.controltower.exception.FlagAlreadyExistsException;
 import com.controltower.exception.FlagNotFoundException;
@@ -103,6 +104,36 @@ public class FlagService {
 
         // Delete the flag
         featureFlagRepository.deleteById(id);
+    }
+
+    /**
+     * Updates a feature flag with new data.
+     * 
+     * @param id The ID of the flag to update
+     * @param updateRequest The update request containing new values
+     * @return The updated flag response
+     * @throws FlagNotFoundException if the flag with the given ID does not exist
+     * @throws FlagAlreadyExistsException if a flag with the new name already exists
+     */
+    public FlagResponse updateFlag(Long id, UpdateFlagRequest updateRequest) {
+        // Find the flag by ID
+        FeatureFlag flag = featureFlagRepository.findById(id)
+                .orElseThrow(() -> new FlagNotFoundException("Flag not found with ID: " + id));
+
+        // Check if another flag with the new name already exists (excluding current flag)
+        if (featureFlagRepository.existsByNameAndIdNot(updateRequest.getName(), id)) {
+            throw new FlagAlreadyExistsException("A flag with the name already exists: " + updateRequest.getName());
+        }
+
+        // Update the flag fields
+        flag.setName(updateRequest.getName());
+        flag.setDescription(updateRequest.getDescription());
+
+        // Save the updated flag
+        FeatureFlag updatedFlag = featureFlagRepository.save(flag);
+
+        // Convert to response DTO
+        return convertToResponse(updatedFlag);
     }
 
     /**

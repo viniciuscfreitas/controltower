@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -235,5 +236,137 @@ class FlagControllerIT {
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.error").value("Flag not found"))
             .andExpect(jsonPath("$.message").value("Flag not found with ID: 999"));
+    }
+
+    @Test
+    void shouldUpdateFlagSuccessfullyWhenDataIsValid() throws Exception {
+        // Arrange: Create a flag with initial values
+        String createRequestBody = """
+            {
+                "name": "old-name",
+                "description": "old-description"
+            }
+        """;
+
+        // Create the flag and capture the response to get the ID
+        String response = mockMvc.perform(post("/admin/flags")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createRequestBody)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        // Extract the ID from the response
+        String id = response.substring(response.indexOf("\"id\":") + 5, response.indexOf(","));
+        id = id.trim();
+
+        // Create the update request body with new values
+        String updateRequestBody = """
+            {
+                "name": "new-name",
+                "description": "new-description"
+            }
+        """;
+
+        // Act: Update the flag using PUT
+        mockMvc.perform(put("/admin/flags/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateRequestBody)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(id))
+            .andExpect(jsonPath("$.name").value("new-name"))
+            .andExpect(jsonPath("$.description").value("new-description"))
+            .andExpect(jsonPath("$.isActive").value(false)); // Should remain unchanged
+
+        // Assert: Verify the flag was actually updated in the database
+        mockMvc.perform(get("/admin/flags")
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$.length()").value(1))
+            .andExpect(jsonPath("$[0].id").value(id))
+            .andExpect(jsonPath("$[0].name").value("new-name"))
+            .andExpect(jsonPath("$[0].description").value("new-description"));
+    }
+
+    @Test
+    void shouldReturn404WhenUpdatingNonExistentFlag() throws Exception {
+        // Arrange: Create update request body
+        String updateRequestBody = """
+            {
+                "name": "new-name",
+                "description": "new-description"
+            }
+        """;
+
+        // Act & Assert: Try to update a flag that doesn't exist
+        mockMvc.perform(put("/admin/flags/999")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateRequestBody)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.error").value("Flag not found"))
+            .andExpect(jsonPath("$.message").value("Flag not found with ID: 999"));
+    }
+
+    @Test
+    void shouldReturn409WhenUpdatingToAnExistingName() throws Exception {
+        // Arrange: Create two flags
+        String flag1RequestBody = """
+            {
+                "name": "existing-flag",
+                "description": "First flag"
+            }
+        """;
+
+        String flag2RequestBody = """
+            {
+                "name": "flag-to-update",
+                "description": "Second flag"
+            }
+        """;
+
+        // Create first flag
+        mockMvc.perform(post("/admin/flags")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(flag1RequestBody)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isCreated());
+
+        // Create second flag and capture its ID
+        String response = mockMvc.perform(post("/admin/flags")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(flag2RequestBody)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        // Extract the ID from the response
+        String id = response.substring(response.indexOf("\"id\":") + 5, response.indexOf(","));
+        id = id.trim();
+
+        // Create update request body with existing name
+        String updateRequestBody = """
+            {
+                "name": "existing-flag",
+                "description": "Updated description"
+            }
+        """;
+
+        // Act & Assert: Try to update second flag to use first flag's name
+        mockMvc.perform(put("/admin/flags/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateRequestBody)
+                .with(httpBasic("admin", "admin123")))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.error").value("Flag already exists"))
+            .andExpect(jsonPath("$.message").value("A flag with the name already exists: existing-flag"));
     }
 }
