@@ -69,6 +69,19 @@ public class FlagService {
     }
 
     /**
+     * Gets all active feature flag names.
+     * 
+     * This method is optimized for the public API endpoint and should respond quickly.
+     * It returns only the names of active flags, not the complete flag objects.
+     * 
+     * @return List of active flag names
+     */
+    @Transactional(readOnly = true)
+    public List<String> getActiveFlagNames() {
+        return featureFlagRepository.findActiveFlagNames();
+    }
+
+    /**
      * Toggles the active state of a feature flag.
      * 
      * @param id The ID of the flag to toggle
@@ -109,10 +122,11 @@ public class FlagService {
     /**
      * Updates a feature flag with new data.
      * 
-     * @param id The ID of the flag to update
+     * @param id            The ID of the flag to update
      * @param updateRequest The update request containing new values
      * @return The updated flag response
-     * @throws FlagNotFoundException if the flag with the given ID does not exist
+     * @throws FlagNotFoundException      if the flag with the given ID does not
+     *                                    exist
      * @throws FlagAlreadyExistsException if a flag with the new name already exists
      */
     public FlagResponse updateFlag(Long id, UpdateFlagRequest updateRequest) {
@@ -120,7 +134,8 @@ public class FlagService {
         FeatureFlag flag = featureFlagRepository.findById(id)
                 .orElseThrow(() -> new FlagNotFoundException("Flag not found with ID: " + id));
 
-        // Check if another flag with the new name already exists (excluding current flag)
+        // Check if another flag with the new name already exists (excluding current
+        // flag)
         if (featureFlagRepository.existsByNameAndIdNot(updateRequest.getName(), id)) {
             throw new FlagAlreadyExistsException("A flag with the name already exists: " + updateRequest.getName());
         }
