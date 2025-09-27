@@ -33,6 +33,8 @@ const theme = createTheme({
 });
 
 export default function Dashboard() {
+  console.log('🔧 Dashboard component rendering');
+  
   const [flagModal, setFlagModal] = useState<{
     open: boolean;
     flag: FeatureFlag | null;
@@ -41,7 +43,10 @@ export default function Dashboard() {
     flag: null,
   });
 
+  console.log('🔧 Calling useFlags hook...');
   const { data: flags = [], isLoading, error } = useFlags();
+  console.log('🔧 useFlags result:', { flags, isLoading, error });
+  
   const { logout, username } = useAuth();
 
   const handleCreateFlag = () => {

@@ -154,14 +154,23 @@ class FlagControllerIT {
             }
         """;
 
-        mockMvc.perform(post("/admin/flags")
+        // Create the flag and capture the response to get the ID
+        String response = mockMvc.perform(post("/admin/flags")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(createRequestBody)
                 .with(httpBasic("admin", "admin123")))
-            .andExpect(status().isCreated());
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
-        // Act: Toggle the flag
-        mockMvc.perform(patch("/admin/flags/toggle-test-flag")
+        // Extract the ID from the response (simple JSON parsing for test)
+        String id = response.substring(response.indexOf("\"id\":") + 5, response.indexOf(","));
+        id = id.trim();
+
+        // Act: Toggle the flag using the ID
+        mockMvc.perform(patch("/admin/flags/" + id)
                 .with(httpBasic("admin", "admin123")))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name").value("toggle-test-flag"))
@@ -172,10 +181,10 @@ class FlagControllerIT {
     @Test
     void shouldReturn404WhenTogglingNonExistentFlag() throws Exception {
         // Act & Assert: Try to toggle a flag that doesn't exist
-        mockMvc.perform(patch("/admin/flags/non-existent-flag")
+        mockMvc.perform(patch("/admin/flags/999")
                 .with(httpBasic("admin", "admin123")))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.error").value("Flag not found"))
-            .andExpect(jsonPath("$.message").value("Flag not found with name: non-existent-flag"));
+            .andExpect(jsonPath("$.message").value("Flag not found with ID: 999"));
     }
 }

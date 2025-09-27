@@ -35,7 +35,8 @@ public class FlagService {
      * 
      * @param request The flag creation request
      * @return The created flag response
-     * @throws FlagAlreadyExistsException if a flag with the same name already exists
+     * @throws FlagAlreadyExistsException if a flag with the same name already
+     *                                    exists
      */
     public FlagResponse createFlag(CreateFlagRequest request) {
         // Check if flag with the same name already exists
@@ -45,10 +46,10 @@ public class FlagService {
 
         // Create new feature flag entity
         FeatureFlag featureFlag = new FeatureFlag(request.getName(), request.getDescription());
-        
+
         // Save to database
         FeatureFlag savedFlag = featureFlagRepository.save(featureFlag);
-        
+
         // Convert to response DTO
         return convertToResponse(savedFlag);
     }
@@ -69,14 +70,14 @@ public class FlagService {
     /**
      * Toggles the active state of a feature flag.
      * 
-     * @param name The name of the flag to toggle
+     * @param id The ID of the flag to toggle
      * @return The updated flag response
-     * @throws FlagNotFoundException if the flag with the given name does not exist
+     * @throws FlagNotFoundException if the flag with the given ID does not exist
      */
-    public FlagResponse toggleFlag(String name) {
-        // Find the flag by name
-        FeatureFlag flag = featureFlagRepository.findByName(name)
-                .orElseThrow(() -> new FlagNotFoundException("Flag not found with name: " + name));
+    public FlagResponse toggleFlag(Long id) {
+        // Find the flag by ID
+        FeatureFlag flag = featureFlagRepository.findById(id)
+                .orElseThrow(() -> new FlagNotFoundException("Flag not found with ID: " + id));
 
         // Toggle the active state
         flag.setIsActive(!flag.getIsActive());
@@ -96,12 +97,11 @@ public class FlagService {
      */
     private FlagResponse convertToResponse(FeatureFlag featureFlag) {
         return new FlagResponse(
-            featureFlag.getId(),
-            featureFlag.getName(),
-            featureFlag.getIsActive(),
-            featureFlag.getDescription(),
-            featureFlag.getCreatedAt(),
-            featureFlag.getUpdatedAt()
-        );
+                featureFlag.getId(),
+                featureFlag.getName(),
+                featureFlag.getIsActive(),
+                featureFlag.getDescription(),
+                featureFlag.getCreatedAt(),
+                featureFlag.getUpdatedAt());
     }
 }
