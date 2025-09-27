@@ -5,27 +5,15 @@ class ApiService {
   private api: AxiosInstance;
 
   constructor() {
-    console.log('🔧 ApiService constructor called');
-    console.log('🔧 Environment variables:', {
-      NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-      NODE_ENV: process.env.NODE_ENV
-    });
-    
     const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-    console.log('🔧 Base URL:', baseURL);
     
-    try {
-      this.api = axios.create({
-        baseURL,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('✅ Axios instance created successfully');
-    } catch (error) {
-      console.error('❌ Error creating axios instance:', error);
-      throw error;
-    }
+    this.api = axios.create({
+      baseURL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 30000, // 30 segundos timeout
+    });
 
     // Interceptor para adicionar autenticação básica
     this.api.interceptors.request.use((config) => {
@@ -55,32 +43,19 @@ class ApiService {
 
   // Feature Flags endpoints
   async getAllFlags(): Promise<FeatureFlag[]> {
-    console.log('🔧 getAllFlags called');
-    console.log('🔧 this.api exists:', !!this.api);
-    console.log('🔧 this.api type:', typeof this.api);
-    
     if (!this.api) {
-      console.error('❌ this.api is undefined!');
-      console.trace('Stack trace:');
       throw new Error('API instance is not initialized');
     }
     
     try {
-      console.log('🔧 Making request to:', this.api.defaults.baseURL + '/admin/flags');
       const response: AxiosResponse<FlagResponse[]> = await this.api.get('/admin/flags');
-      console.log('✅ getAllFlags response:', response.data);
       
       // Map backend isActive to frontend enabled
-      const mappedFlags = response.data.map(flag => ({
+      return response.data.map(flag => ({
         ...flag,
         enabled: flag.isActive
       }));
-      
-      console.log('✅ Mapped flags:', mappedFlags);
-      return mappedFlags;
     } catch (error) {
-      console.error('❌ getAllFlags error:', error);
-      console.trace('Stack trace:');
       throw error;
     }
   }
@@ -122,15 +97,11 @@ class ApiService {
   }
 }
 
-console.log('🔧 Creating apiService instance...');
 let apiService: ApiService;
 
 try {
   apiService = new ApiService();
-  console.log('✅ apiService created successfully:', apiService);
 } catch (error) {
-  console.error('❌ Error creating apiService:', error);
-  console.trace('Stack trace:');
   throw error;
 }
 

@@ -3,25 +3,19 @@ import { apiService } from '@/services/api';
 import { CreateFlagRequest, UpdateFlagRequest } from '@/types/flag';
 
 export const useFlags = () => {
-  console.log('🔧 useFlags hook called');
-  console.log('🔧 apiService exists:', !!apiService);
-  console.log('🔧 apiService type:', typeof apiService);
-  
-  if (!apiService) {
-    console.error('❌ apiService is undefined in useFlags!');
-    console.trace('Stack trace:');
-  }
-  
   return useQuery({
     queryKey: ['flags'],
     queryFn: () => {
-      console.log('🔧 useFlags queryFn called');
       if (!apiService) {
-        console.error('❌ apiService is undefined in queryFn!');
         throw new Error('API service is not available');
       }
       return apiService.getAllFlags();
     },
+    staleTime: 5 * 60 * 1000, // 5 minutos
+    cacheTime: 10 * 60 * 1000, // 10 minutos
+    refetchOnWindowFocus: false,
+    retry: 3,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 };
 
