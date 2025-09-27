@@ -11,7 +11,8 @@ import {
   Alert,
   IconButton,
 } from '@mui/material';
-import { Add as AddIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import { Add as AddIcon, Logout as LogoutIcon, Science as ScienceIcon } from '@mui/icons-material';
+import Link from 'next/link';
 import { useFlags } from '@/hooks/useFlags';
 import { useAuth } from '@/contexts/AuthContext';
 import FlagTable from '@/components/FlagTable';
@@ -64,14 +65,26 @@ export default function Dashboard() {
             <Typography variant="h4" component="h1">
               Dashboard
             </Typography>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={handleCreateFlag}
-              size="large"
-            >
-              Create New Flag
-            </Button>
+            <Box display="flex" gap={2}>
+              <Link href="/demo" style={{ textDecoration: 'none' }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<ScienceIcon />}
+                  size="large"
+                  color="secondary"
+                >
+                  Ver Demo
+                </Button>
+              </Link>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={handleCreateFlag}
+                size="large"
+              >
+                Create New Flag
+              </Button>
+            </Box>
           </Box>
 
           {error && (

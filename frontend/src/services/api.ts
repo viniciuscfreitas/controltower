@@ -95,6 +95,12 @@ class ApiService {
       enabled: response.data.isActive
     };
   }
+
+  // Public endpoint to get active flag names (for feature flag checking)
+  async getActiveFlags(): Promise<string[]> {
+    const response: AxiosResponse<string[]> = await this.api.get('/api/v1/flags/active');
+    return response.data;
+  }
 }
 
 let apiService: ApiService;
