@@ -31,16 +31,16 @@ const SecretFeature = () => (
       <Box display="flex" alignItems="center" gap={1} mb={2}>
         <RocketIcon />
         <Typography variant="h6" component="h2">
-          🚀 Feature Secreta Ativada!
+          🚀 Secret Feature Activated!
         </Typography>
       </Box>
       <Typography variant="body1">
-        Parabéns! Esta é uma funcionalidade experimental que só aparece quando a flag 
-        <strong> secret-feature-beta</strong> está ativa no painel de controle.
+        Congratulations! This is an experimental feature that only appears when the flag 
+        <strong> secret-feature-beta</strong> is active in the control panel.
       </Typography>
       <Typography variant="body2" sx={{ mt: 1, opacity: 0.9 }}>
-        Esta demonstração mostra como você pode controlar features em tempo real, 
-        sem precisar fazer deploy de código.
+        This demonstration shows how you can control features in real-time, 
+        without needing to deploy code.
       </Typography>
     </CardContent>
   </Card>
@@ -53,22 +53,22 @@ const MultipleFlagsDemo = () => {
     <Card sx={{ mb: 2 }}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          🎛️ Demonstração de Múltiplas Flags
+          🎛️ Multiple Flags Demonstration
         </Typography>
         <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
           {Object.entries(flags).map(([flagName, isActive]) => (
             <Chip
               key={flagName}
               icon={isActive ? <CheckIcon /> : <CancelIcon />}
-              label={`${flagName}: ${isActive ? 'ATIVA' : 'INATIVA'}`}
+              label={`${flagName}: ${isActive ? 'ACTIVE' : 'INACTIVE'}`}
               color={isActive ? 'success' : 'default'}
               variant={isActive ? 'filled' : 'outlined'}
             />
           ))}
         </Box>
         <Typography variant="body2" color="text.secondary">
-          Crie flags com os nomes feature-a, feature-b ou feature-c no painel 
-          para ver elas aparecerem aqui em tempo real.
+          Create flags with names feature-a, feature-b or feature-c in the panel 
+          to see them appear here in real-time.
         </Typography>
       </CardContent>
     </Card>
@@ -83,31 +83,31 @@ export default function DemoPage() {
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box mb={4}>
           <Typography variant="h3" component="h1" gutterBottom>
-            🎭 Página de Demonstração
+            🎭 Demo Page
           </Typography>
           <Typography variant="h6" color="text.secondary" paragraph>
-            Esta página demonstra o poder estratégico do ControlTower em ação.
+            This page demonstrates the strategic power of ControlTower in action.
           </Typography>
         </Box>
 
         <Alert severity="info" sx={{ mb: 3 }}>
           <Typography variant="h6" gutterBottom>
-            📋 Como testar:
+            📋 How to test:
           </Typography>
           <ol>
             <li>
-              <strong>Crie uma flag:</strong> Vá ao painel de controle e crie uma flag 
-              chamada <code>secret-feature-beta</code>
+              <strong>Create a flag:</strong> Go to the control panel and create a flag 
+              named <code>secret-feature-beta</code>
             </li>
             <li>
-              <strong>Deixe INATIVA:</strong> A feature secreta não deve aparecer abaixo
+              <strong>Leave it INACTIVE:</strong> The secret feature should not appear below
             </li>
             <li>
-              <strong>ATIVA a flag:</strong> Recarregue esta página - a feature deve aparecer!
+              <strong>ACTIVATE the flag:</strong> Reload this page - the feature should appear!
             </li>
             <li>
-              <strong>Teste o Kill Switch:</strong> Desative a flag e recarregue - 
-              a feature desaparece instantaneamente
+              <strong>Test the Kill Switch:</strong> Deactivate the flag and reload - 
+              the feature disappears instantly
             </li>
           </ol>
         </Alert>
@@ -116,19 +116,19 @@ export default function DemoPage() {
           <CardContent>
             <Box display="flex" alignItems="center" gap={2}>
               <Typography variant="h6">
-                Status da Flag secret-feature-beta:
+                Status of Flag secret-feature-beta:
               </Typography>
               {showSecretFeature ? (
                 <Chip
                   icon={<VisibilityIcon />}
-                  label="ATIVA"
+                  label="ACTIVE"
                   color="success"
                   variant="filled"
                 />
               ) : (
                 <Chip
                   icon={<VisibilityOffIcon />}
-                  label="INATIVA"
+                  label="INACTIVE"
                   color="default"
                   variant="outlined"
                 />
@@ -139,7 +139,7 @@ export default function DemoPage() {
 
         <Box mb={3}>
           <Typography variant="h5" gutterBottom>
-            🎯 Feature Controlada por Flag
+            🎯 Feature Controlled by Flag
           </Typography>
           {showSecretFeature ? (
             <SecretFeature />
@@ -153,10 +153,10 @@ export default function DemoPage() {
               <CardContent>
                 <VisibilityOffIcon sx={{ fontSize: 48, color: '#ccc', mb: 2 }} />
                 <Typography variant="h6" color="text.secondary">
-                  Feature Secreta Ocultada
+                  Secret Feature Hidden
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Ative a flag secret-feature-beta no painel de controle para ver a mágica acontecer!
+                  Activate the secret-feature-beta flag in the control panel to see the magic happen!
                 </Typography>
               </CardContent>
             </Card>
@@ -165,7 +165,7 @@ export default function DemoPage() {
 
         <Box mb={3}>
           <Typography variant="h5" gutterBottom>
-            🎛️ Múltiplas Flags
+            🎛️ Multiple Flags
           </Typography>
           <MultipleFlagsDemo />
         </Box>
@@ -173,28 +173,28 @@ export default function DemoPage() {
         <Card sx={{ backgroundColor: '#f8f9fa' }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
-              🔧 Como Funciona Tecnicamente
+              🔧 How It Works Technically
             </Typography>
             <Typography variant="body1" paragraph>
-              Esta página usa o hook useFeatureFlag() que:
+              This page uses the useFeatureFlag() hook that:
             </Typography>
             <ul>
               <li>
-                <strong>Faz uma requisição</strong> para <code>/api/v1/flags/active</code>
+                <strong>Makes a request</strong> to <code>/api/v1/flags/active</code>
               </li>
               <li>
-                <strong>Cacheia o resultado</strong> por 1 minuto para performance
+                <strong>Caches the result</strong> for 1 minute for performance
               </li>
               <li>
-                <strong>Retorna um boolean</strong> indicando se a flag está ativa
+                <strong>Returns a boolean</strong> indicating if the flag is active
               </li>
               <li>
-                <strong>Atualiza automaticamente</strong> quando o cache expira
+                <strong>Updates automatically</strong> when the cache expires
               </li>
             </ul>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-              💡 <strong>Dica:</strong> Esta é a mesma lógica que você usaria em qualquer 
-              componente React para controlar features condicionalmente.
+              💡 <strong>Tip:</strong> This is the same logic you would use in any 
+              React component to conditionally control features.
             </Typography>
           </CardContent>
         </Card>

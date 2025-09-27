@@ -80,7 +80,7 @@ export default function FlagModal({ open, onClose, flag }: FlagModalProps) {
         await createFlagMutation.mutateAsync(formData);
       }
       onClose();
-    } catch (error) {
+    } catch {
       // Error is handled by the mutation
     }
   };

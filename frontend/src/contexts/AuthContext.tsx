@@ -35,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           isAuthenticated: true,
           username,
         });
-      } catch (error) {
+      } catch {
         localStorage.removeItem('auth');
       }
     }

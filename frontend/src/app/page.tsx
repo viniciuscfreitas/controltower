@@ -73,7 +73,7 @@ export default function Dashboard() {
                   size="large"
                   color="secondary"
                 >
-                  Ver Demo
+                  View Demo
                 </Button>
               </Link>
               <Button

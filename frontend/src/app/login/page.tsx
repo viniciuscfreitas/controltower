@@ -48,7 +48,7 @@ export default function LoginPage() {
       } else {
         setError('Invalid credentials');
       }
-    } catch (error) {
+    } catch {
       setError('Login error');
     } finally {
       setIsLoading(false);
