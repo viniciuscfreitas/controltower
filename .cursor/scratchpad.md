@@ -173,3 +173,22 @@ https://backend-falling-forest-8240.fly.dev/
 
 ### Resumo da Solução:
 O problema era que o Spring Boot não estava recebendo a variável de ambiente `JDBC_DATABASE_URL` do secret do Fly.io. A solução foi mapear explicitamente a variável no arquivo `fly.toml` usando a seção `[env]`.
+
+## Git Commit - Reorganização do Projeto ✅
+
+### Commit Realizado:
+- **Hash**: `3c3f07b`
+- **Branch**: `refactor/api-identifier-to-id`
+- **Arquivos**: 24 files changed, 222 insertions(+), 97 deletions(-)
+
+### Mudanças Commitadas:
+- ✅ **Reorganização estrutural** - Todos os arquivos backend movidos para `backend/` directory
+- ✅ **Dockerfile adicionado** - Configuração para deployment containerizado
+- ✅ **Configurações corrigidas** - Application properties com profiles dev/prod
+- ✅ **Documentação atualizada** - Scratchpad com todo o processo de deployment
+- ✅ **Limpeza realizada** - Removidos arquivos desnecessários (.DS_Store, .vscode/)
+
+### Status do Repositório:
+- ✅ **Commit realizado** - Todas as mudanças salvas no git
+- ✅ **Estrutura organizada** - Projeto com separação clara frontend/backend
+- ✅ **Deploy funcional** - Aplicação rodando em produção no Fly.io
