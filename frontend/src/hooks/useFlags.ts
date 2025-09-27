@@ -63,8 +63,7 @@ export const useToggleFlag = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, enabled }: { id: number; enabled: boolean }) =>
-      apiService.toggleFlag(id, enabled),
+    mutationFn: (id: number) => apiService.toggleFlag(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['flags'] });
     },

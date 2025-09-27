@@ -69,7 +69,15 @@ class ApiService {
       console.log('🔧 Making request to:', this.api.defaults.baseURL + '/admin/flags');
       const response: AxiosResponse<FlagResponse[]> = await this.api.get('/admin/flags');
       console.log('✅ getAllFlags response:', response.data);
-      return response.data;
+      
+      // Map backend isActive to frontend enabled
+      const mappedFlags = response.data.map(flag => ({
+        ...flag,
+        enabled: flag.isActive
+      }));
+      
+      console.log('✅ Mapped flags:', mappedFlags);
+      return mappedFlags;
     } catch (error) {
       console.error('❌ getAllFlags error:', error);
       console.trace('Stack trace:');
@@ -79,26 +87,38 @@ class ApiService {
 
   async getFlagById(id: number): Promise<FeatureFlag> {
     const response: AxiosResponse<FlagResponse> = await this.api.get(`/admin/flags/${id}`);
-    return response.data;
+    return {
+      ...response.data,
+      enabled: response.data.isActive
+    };
   }
 
   async createFlag(flag: CreateFlagRequest): Promise<FeatureFlag> {
     const response: AxiosResponse<FlagResponse> = await this.api.post('/admin/flags', flag);
-    return response.data;
+    return {
+      ...response.data,
+      enabled: response.data.isActive
+    };
   }
 
   async updateFlag(id: number, flag: UpdateFlagRequest): Promise<FeatureFlag> {
     const response: AxiosResponse<FlagResponse> = await this.api.put(`/admin/flags/${id}`, flag);
-    return response.data;
+    return {
+      ...response.data,
+      enabled: response.data.isActive
+    };
   }
 
   async deleteFlag(id: number): Promise<void> {
     await this.api.delete(`/admin/flags/${id}`);
   }
 
-  async toggleFlag(id: number, enabled: boolean): Promise<FeatureFlag> {
+  async toggleFlag(id: number): Promise<FeatureFlag> {
     const response: AxiosResponse<FlagResponse> = await this.api.patch(`/admin/flags/${id}`);
-    return response.data;
+    return {
+      ...response.data,
+      enabled: response.data.isActive
+    };
   }
 }
 

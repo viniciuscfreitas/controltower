@@ -12,25 +12,12 @@ import {
   IconButton,
 } from '@mui/material';
 import { Add as AddIcon, Logout as LogoutIcon } from '@mui/icons-material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { useFlags } from '@/hooks/useFlags';
 import { useAuth } from '@/contexts/AuthContext';
 import FlagTable from '@/components/FlagTable';
 import FlagModal from '@/components/FlagModal';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { FeatureFlag } from '@/types/flag';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
 
 export default function Dashboard() {
   console.log('🔧 Dashboard component rendering');
@@ -63,9 +50,7 @@ export default function Dashboard() {
 
   return (
     <ProtectedRoute>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AppBar position="static">
+      <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               ControlTower - Feature Flags
@@ -113,7 +98,6 @@ export default function Dashboard() {
             flag={flagModal.flag}
           />
         </Container>
-      </ThemeProvider>
     </ProtectedRoute>
   );
 }

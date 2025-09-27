@@ -55,10 +55,7 @@ export default function FlagTable({ flags, onEdit, loading, error }: FlagTablePr
       title: `Confirm ${action} Flag`,
       message: `Are you sure you want to ${action.toLowerCase()} the flag '${flag.name}'?`,
       onConfirm: () => {
-        toggleFlagMutation.mutate({
-          id: flag.id,
-          enabled: !flag.enabled,
-        });
+        toggleFlagMutation.mutate(flag.id);
         setConfirmationModal(prev => ({ ...prev, open: false }));
       },
     });

@@ -20,8 +20,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isAuthenticated: false,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    // Mark as client-side to prevent hydration mismatch
+    setIsClient(true);
+    
     // Check if user is already authenticated
     const auth = localStorage.getItem('auth');
     if (auth) {
@@ -66,7 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         ...authState,
         login,
         logout,
-        isLoading,
+        isLoading: isLoading || !isClient, // Keep loading until client-side hydration is complete
       }}
     >
       {children}

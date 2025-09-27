@@ -22,7 +22,7 @@ export interface FlagResponse {
   id: number;
   name: string;
   description: string;
-  enabled: boolean;
+  isActive: boolean;
   createdAt: string;
   updatedAt: string;
 }

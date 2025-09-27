@@ -71,7 +71,8 @@ public class FlagService {
     /**
      * Gets all active feature flag names.
      * 
-     * This method is optimized for the public API endpoint and should respond quickly.
+     * This method is optimized for the public API endpoint and should respond
+     * quickly.
      * It returns only the names of active flags, not the complete flag objects.
      * 
      * @return List of active flag names

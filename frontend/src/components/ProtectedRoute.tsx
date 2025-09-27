@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { CircularProgress, Box } from '@mui/material';
+// Removed unused MUI imports to prevent hydration issues
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,26 +12,45 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClient && !isLoading && !isAuthenticated) {
       router.push('/login');
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading, router, isClient]);
 
-  if (isLoading) {
+  // Prevent hydration mismatch by not rendering MUI components during SSR
+  if (!isClient || isLoading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="100vh"
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+        suppressHydrationWarning={true}
       >
-        <CircularProgress />
-      </Box>
+        <div
+          style={{
+            width: '40px',
+            height: '40px',
+            border: '4px solid #f3f3f3',
+            borderTop: '4px solid #1976d2',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+          }}
+        />
+      </div>
     );
   }
 
+  // Don't render anything until hydration is complete
   if (!isAuthenticated) {
     return null;
   }

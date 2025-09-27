@@ -12,18 +12,8 @@ import {
   Alert,
   CircularProgress,
 } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoginCredentials } from '@/types/auth';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-  },
-});
 
 export default function LoginPage() {
   const [credentials, setCredentials] = useState<LoginCredentials>({
@@ -66,9 +56,7 @@ export default function LoginPage() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="sm">
         <Box
           sx={{
             marginTop: 8,
@@ -140,6 +128,5 @@ export default function LoginPage() {
           </Paper>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 }
